@@ -1,7 +1,10 @@
 {
   "version": 2,
-  "rewrites": [
-    { "source": "/contract", "destination": "/contract.html" },
-    { "source": "/", "destination": "/index.html" }
+  "outputDirectory": ".",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "routes": [
+    { "src": "/contract", "dest": "/contract.html" },
+    { "src": "/", "dest": "/index.html" }
   ]
 }
