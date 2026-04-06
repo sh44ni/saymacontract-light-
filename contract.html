@@ -5,65 +5,93 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="../styles/html-to-pdf.css">
+    <link rel="stylesheet" href="public/styles/html-to-pdf.css">
     <title>pdf</title>
+    <style>
+        /* Remove browser-added headers (date, URL, page number) and set A4 */
+        @page {
+            margin: 0;
+            size: A4 portrait;
+        }
+        @media print {
+            .download-pdf-button {
+                display: none !important;
+            }
+            html, body {
+                width: 210mm;
+                height: 297mm;
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+            }
+            main {
+                width: 210mm;
+                height: 297mm;
+            }
+            .image-box {
+                width: 210mm;
+                height: 297mm;
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+            .pdfImg {
+                width: 210mm !important;
+                height: 297mm !important;
+                max-width: none !important;
+                object-fit: fill;
+            }
+        }
+        /* ensure background images/colors print correctly */
+        * {
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+    </style>
 </head>
 <body dir="rtl">
     <div class="download-pdf-button">
-        <a href="/download-pdf/<%= user._id %>">Download as PDF</a>
+        <a href="#" onclick="window.print(); return false;">Download as PDF</a>
     </div>
     <main>
         <div class="image-box">
-            <!-- <img class="pdfImg" src="../pdf/image.png" alt=""> -->
             <img class="pdfImg" src="https://res.cloudinary.com/umarfarooq/image/upload/v1736434508/sayma/eeuhwyegextpy7vgf4xe.png" alt="">
 
-            <!-- <img class="pdfImg" src="https://www.solidbackgrounds.com/images/2480x3508/2480x3508-white-solid-color-background.jpg" alt=""> -->
             <div class="image-content">
                 <div class="part1">
                     <div class="heading w-full text-center mb-4">
                         <h1 class=" lg:text-4xl inline-block px-8 py-4 rounded-lg" style="border: 1px solid;font-size: 2.5vw; font-weight: bolder;">عقد استقدام عاملة منزل</h1>
                     </div>
-                    <!-- <div class="second-line  font-semibold w-full px-4 py-2 rounded-sm flex items-center justify-between mb-4" style="border: 1px solid;">
-                        <div class="right-side-s-line">
-                            <p>الطرف الأول : مكتب مشاريع التعارف العالمية</p>
-                        </div>
-                        <div class="left-side-s-line">
-                            <p>رقم السجل التجاري : 1142831</p>
-                        </div>
-                    </div> -->
                     <div class="second-line w-full px-4 py-2 rounded-sm flex items-center justify-between mb-4" style="border: 1px solid;">
                         <div class="right-side-s-line">
-                            <p>الطرف الأول : الغوالي لجلب الأيدي العاملة</p>
+                            <p>الطرف الأول : مكتب سيماء الهندسية للتجارة والمقاولات</p>
                         </div>
 
                         <div class="left-side-s-line">
-                            <p>رقم السجل التجاري : 1465105</p>
+                            <p>رقم السجل التجاري : 1252596</p>
                         </div>
                     </div>
                 </div>
                 
-                
-                    
                 <div class="grid-container px-4 py-2 rounded-sm  font-semibold">
-                    <div style="width: max-content !important;">الطرف الثاني : <%= user.name %></div>
-                    <div>الرقم المدني : <%= user.alRaqaam %></div>
-                    <div>الرقم الماذونية : <%= user.raqamMadavnia %></div>
-                    <div>لعنوان المحافظة :   <%= user.alHafza %></div>
-                    <div>ولاية : <%= user.walad %></div>
-                    <div>الرقم الهاتف : <%= user.hataf %></div>
+                    <div style="width: max-content !important;">الطرف الثاني : <span id="f-naam"></span></div>
+                    <div>الرقم المدني : <span id="f-raqam"></span></div>
+                    <div>الرقم الماذونية : <span id="f-madvia"></span></div>
+                    <div>لعنوان المحافظة :   <span id="f-hafza"></span></div>
+                    <div>ولاية : <span id="f-walid"></span></div>
+                    <div>الرقم الهاتف : <span id="f-hatif"></span></div>
                 </div>
                     
 
-                    <p class="kabab-ki-haddi  font-semibold">بتاريخ :<%= user.date.toLocaleDateString() %> اتفق الطرفان على مايلي :</p>
+                    <p class="kabab-ki-haddi  font-semibold">بتاريخ :<span id="f-date"></span> اتفق الطرفان على مايلي :</p>
                     
                     <ol class=" font-semibold">
                         <li>
                             (1) يلتزم الطرف الأول باستقدام عاملة منزل للطرف الثاني بناءً على طلبه وحسب الشروط التالية <br>
-                            قيمه الاستقدام  : ( <%= user.mastaqdam %> ) ريال عماني والعاملة تدعي : ( <%= user.aamla %> )  رقم الجواز : ( <%= user.khaldil %> )  <br>
-                            الجنسية : <%= user.jins %>
+                            قيمه الاستقدام  : ( <span id="f-mastaqdam"></span> ) ريال عماني والعاملة تدعي ( <span id="f-aamil"></span> ) : رقم الجواز : ( <span id="f-khaldal"></span> )  <br>
+                            الجنسية : <span id="f-jins"></span>
                              للعمل لدي الطرف الثاني بمهنه:<br>
 
-                            عامله منزل براتب شهري وقدره:  ( <%= user.yadfa %> )
+                            عامله منزل براتب شهري وقدره:  ( <span id="f-yadfa"></span> )
                             ريال عماني صافي بدون خصومات
                         </li>
                         <li>
@@ -106,6 +134,32 @@
             
         </div>
     </main>
-    
+
+    <script>
+        const data = JSON.parse(sessionStorage.getItem('contractData') || '{}');
+
+        // Guard: redirect back to form if no data
+        if (!data.naam) {
+            window.location.href = 'index.html';
+        }
+
+        document.getElementById('f-naam').textContent      = data.naam      || '';
+        document.getElementById('f-raqam').textContent     = data.raqam     || '';
+        document.getElementById('f-madvia').textContent    = data.madvia    || '';
+        document.getElementById('f-hafza').textContent     = data.hafza     || '';
+        document.getElementById('f-walid').textContent     = data.walid     || '';
+        document.getElementById('f-hatif').textContent     = data.hatif     || '';
+        document.getElementById('f-mastaqdam').textContent = data.mastaqdam || '';
+        document.getElementById('f-aamil').textContent     = data.aamil     || '';
+        document.getElementById('f-khaldal').textContent   = data.khaldal   || '';
+        document.getElementById('f-jins').textContent      = data.jins      || '';
+        document.getElementById('f-yadfa').textContent     = data.yadfa     || '';
+
+        // Format date same as original toLocaleDateString()
+        if (data.date) {
+            const d = new Date(data.date);
+            document.getElementById('f-date').textContent = d.toLocaleDateString('ar-OM');
+        }
+    </script>
 </body>
 </html>

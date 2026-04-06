@@ -4,14 +4,14 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../styles/style.css" />
+    <link rel="stylesheet" href="public/styles/style.css" />
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Sayma</title>
   </head>
   <body>
     <main>
       <div class="container contact-form-page">
-        <form class="contactUsForm" action="/form" method="post">
+        <form class="contactUsForm" id="contractForm">
           <div class="first-two flex items-center justify-between gap-x-2">
             <input
               class="w-full"
@@ -99,6 +99,7 @@
             name="yadfa"
           />
           <button
+            type="submit"
             class="bg-blue-900 text-white px-4 py-2 mt-4 rounded-lg font-medium hover:bg-blue-800"
           >
             Download as pdf
@@ -106,5 +107,27 @@
         </form>
       </div>
     </main>
+
+    <script>
+      document.getElementById('contractForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const data = {
+          naam:      document.querySelector('[name="naam"]').value,
+          raqam:     document.querySelector('[name="raqam"]').value,
+          madvia:    document.querySelector('[name="madvia"]').value,
+          hafza:     document.querySelector('[name="hafza"]').value,
+          walid:     document.querySelector('[name="walid"]').value,
+          hatif:     document.querySelector('[name="hatif"]').value,
+          date:      document.querySelector('[name="date"]').value,
+          mastaqdam: document.querySelector('[name="mastaqdam"]').value,
+          aamil:     document.querySelector('[name="aamil"]').value,
+          khaldal:   document.querySelector('[name="khaldal"]').value,
+          jins:      document.querySelector('[name="jins"]').value,
+          yadfa:     document.querySelector('[name="yadfa"]').value,
+        };
+        sessionStorage.setItem('contractData', JSON.stringify(data));
+        window.location.href = 'contract.html';
+      });
+    </script>
   </body>
 </html>
